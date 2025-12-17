@@ -1,16 +1,12 @@
-function showInputError(formElement, inputElement, settings) {
-  let errorElement = formElement.querySelector('#' + inputElement.id + '-error');
+function showInputError(formElement, inputElement, errorMessage, settings) {
+  var errorElement = formElement.querySelector('#' + inputElement.id + '-error');
   inputElement.classList.add(settings.inputErrorClass);
-  errorElement.textContent = inputElement.validationMessage;
+  errorElement.textContent = errorMessage;
   errorElement.classList.add(settings.errorClass);
-
-  //if (inputElement.validity.patternMismatch && inputElement.hasAttribute('data-error-message')) {
-    //errorElement.textContent = inputElement.dataset.errorMessage;
-  //}
 }
 
 function hideInputError(formElement, inputElement, settings) {
-  let errorElement = formElement.querySelector('#' + inputElement.id + '-error');
+  var errorElement = formElement.querySelector('#' + inputElement.id + '-error');
   inputElement.classList.remove(settings.inputErrorClass);
   errorElement.classList.remove(settings.errorClass);
   errorElement.textContent = '';
@@ -18,7 +14,11 @@ function hideInputError(formElement, inputElement, settings) {
 
 function checkInputValidity(formElement, inputElement, settings) {
   if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, settings);
+    if (inputElement.validity.patternMismatch && inputElement.hasAttribute('data-error-message')) {
+      showInputError(formElement, inputElement, inputElement.dataset.errorMessage, settings);
+    } else {
+      showInputError(formElement, inputElement, inputElement.validationMessage, settings);
+    }
   } else {
     hideInputError(formElement, inputElement, settings);
   }

@@ -52,8 +52,7 @@
                 id="user-name"
                 class="popup__input popup__input_type_name"
                 placeholder="Имя"
-                minlength="2"
-                maxlength="40"
+                pattern="^[a-zA-Zа-яА-ЯёЁ\\s-]{2,40}$"
                 required
                 data-error-message="Разрешены только латинские и кириллические буквы, знаки дефиса и пробелы."
               />
@@ -95,8 +94,7 @@
                 id="place-name"
                 class="popup__input popup__input_type_card-name"
                 placeholder="Название"
-                minlength="2"
-                maxlength="30"
+                pattern="^[a-zA-Zа-яА-ЯёЁ\\s-]{2,30}$"
                 required
                 data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
               />
