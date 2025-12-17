@@ -63,13 +63,14 @@ function setEventListeners(formElement, settings) {
 }
 
 function clearValidation(formElement, settings) {
-  let inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
-  let buttonElement = formElement.querySelector(settings.submitButtonSelector);
+  const inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
+  const buttonElement = formElement.querySelector(settings.submitButtonSelector);
 
   inputList.forEach(function (inputElement) {
     hideInputError(formElement, inputElement, settings);
+    inputElement.setCustomValidity('');
   });
-
+  formElement.reset();
   disableSubmitButton(buttonElement, settings);
 }
 
