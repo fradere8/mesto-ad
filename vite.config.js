@@ -2,22 +2,16 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
 export default defineConfig({
-  root: '.',
+  root: '.', 
   build: {
-    outDir: 'dist',
+    outDir: 'dist',     
+    emptyOutDir: true,  
     rollupOptions: {
-      input: {
-        main: resolve(__dirname, 'src/scripts/index.js') 
-      },
-      output: {
-        entryFileNames: 'assets/[name]-[hash].js',
-        chunkFileNames: 'assets/[name]-[hash].js',
-        assetFileNames: 'assets/[name]-[hash].[ext]'
-      }
-    }
+      input: resolve(__dirname, 'index.js'), 
+    },
   },
   server: {
-    open: '/index.html', 
-    port: 3000
-  }
+    open: true,    
+    port: 3000,     
+  },
 });
