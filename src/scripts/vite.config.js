@@ -1,7 +1,17 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import { resolve } from 'path';
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
-})
+  root: '.', // корень проекта
+  build: {
+    outDir: 'dist',     // папка для сборки
+    emptyOutDir: true,  // очистка dist перед сборкой
+    rollupOptions: {
+      input: resolve('/scripts', 'index.js'), // точка входа — index.html
+    },
+  },
+  server: {
+    open: true,     // автоматически открывать страницу в браузере
+    port: 3000,     // порт dev-сервера
+  },
+});
