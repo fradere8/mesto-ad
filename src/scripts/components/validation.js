@@ -1,12 +1,12 @@
 function showInputError(formElement, inputElement, errorMessage, settings) {
-  var errorElement = formElement.querySelector('#' + inputElement.id + '-error');
+  let errorElement = formElement.querySelector('#' + inputElement.id + '-error');
   inputElement.classList.add(settings.inputErrorClass);
   errorElement.textContent = errorMessage;
   errorElement.classList.add(settings.errorClass);
 }
 
 function hideInputError(formElement, inputElement, settings) {
-  var errorElement = formElement.querySelector('#' + inputElement.id + '-error');
+  errorElement = formElement.querySelector('#' + inputElement.id + '-error');
   inputElement.classList.remove(settings.inputErrorClass);
   errorElement.classList.remove(settings.errorClass);
   errorElement.textContent = '';
@@ -63,8 +63,8 @@ function setEventListeners(formElement, settings) {
 }
 
 function clearValidation(formElement, settings) {
-  const inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
-  const buttonElement = formElement.querySelector(settings.submitButtonSelector);
+  inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
+  buttonElement = formElement.querySelector(settings.submitButtonSelector);
 
   inputList.forEach(function (inputElement) {
     hideInputError(formElement, inputElement, settings);
