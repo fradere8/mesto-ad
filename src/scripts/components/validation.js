@@ -6,7 +6,7 @@ function showInputError(formElement, inputElement, errorMessage, settings) {
 }
 
 function hideInputError(formElement, inputElement, settings) {
-  errorElement = formElement.querySelector('#' + inputElement.id + '-error');
+  let errorElement = formElement.querySelector('#' + inputElement.id + '-error');
   inputElement.classList.remove(settings.inputErrorClass);
   errorElement.classList.remove(settings.errorClass);
   errorElement.textContent = '';
@@ -63,8 +63,8 @@ function setEventListeners(formElement, settings) {
 }
 
 function clearValidation(formElement, settings) {
-  inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
-  buttonElement = formElement.querySelector(settings.submitButtonSelector);
+  const inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
+  const buttonElement = formElement.querySelector(settings.submitButtonSelector);
 
   inputList.forEach(function (inputElement) {
     hideInputError(formElement, inputElement, settings);
