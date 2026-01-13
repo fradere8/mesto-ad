@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
 export default defineConfig({
+  base: '/mesto-ad/',
   root: '.', 
   build: {
     outDir: 'dist',     
