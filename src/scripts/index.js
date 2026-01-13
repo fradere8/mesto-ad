@@ -6,7 +6,7 @@
   Из index.js не допускается что то экспортировать
 */
 
-import '../../pages/index.css';
+import '../pages/index.css';
 
 import { initialCards } from "./cards.js";
 import { createCardElement, deleteCard, likeCard } from "./components/card.js";
