@@ -7,7 +7,7 @@ export default defineConfig({
     outDir: 'dist',     
     emptyOutDir: true,  
     rollupOptions: {
-      input: resolve(__dirname, 'scripts/index.js'), 
+      input: resolve(__dirname, 'src/scripts/index.js'), 
     },
   },
   server: {
