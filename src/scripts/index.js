@@ -6,7 +6,7 @@
   Из index.js не допускается что то экспортировать
 */
 import '../pages/index.css';
-import { getUserInfo, setUserInfo } from './components/api.js';
+import { getUserInfo, setUserAvatar, setUserInfo } from './components/api.js';
 import { createCardElement, deleteCard, likeCard } from "./components/card.js";
 import { openModalWindow, closeModalWindow, setCloseModalWindowEventListeners } from "./components/modal.js";
 
@@ -66,7 +66,6 @@ const handleProfileFormSubmit = (evt) => {
     .then((userData) => {
       profileTitle.textContent = userData.name,
       profileDescription.textContent = userData.about,
-      profileAvatar.style.backgroundImage = `url(${userData.avatar})`,
       closeModalWindow(profileFormModalWindow);
     })
     .catch((err) => {
@@ -76,8 +75,16 @@ const handleProfileFormSubmit = (evt) => {
 
 const handleAvatarFromSubmit = (evt) => {
   evt.preventDefault();
-  profileAvatar.style.backgroundImage = `url(${avatarInput.value})`;
-  closeModalWindow(avatarFormModalWindow);
+  setUserAvatar({
+    avatar: avatarInput.value,
+  })
+    .then((userData) => {
+      profileAvatar.style.backgroundImage = `url(${userData.avatar})`,
+      closeModalWindow(profileFormModalWindow);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 const handleCardFormSubmit = (evt) => {
