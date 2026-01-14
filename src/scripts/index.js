@@ -6,6 +6,7 @@
   Из index.js не допускается что то экспортировать
 */
 import '../pages/index.css';
+import { getUserInfo } from './components/api.js';
 import { createCardElement, deleteCard, likeCard } from "./components/card.js";
 import { openModalWindow, closeModalWindow, setCloseModalWindowEventListeners } from "./components/modal.js";
 
@@ -117,4 +118,27 @@ const allPopups = document.querySelectorAll(".popup");
 allPopups.forEach((popup) => {
   setCloseModalWindowEventListeners(popup);
 });
+
+Promise.all([getCardList(), getUserInfo()])
+  .then(([cards, userData]) => {
+      profileTitle.textContent = userData.name;
+      profileDescription.textContent = userData.about,
+      profileAvatar.style.backgroundImage = `url(${userData.avatar})`,
+
+      cards.forEach((card) => {
+        placesWrap.append(
+          createCardElement(
+            card,
+            {
+              onPreviewPicture: handlePreviewPicture,
+              onLikeIcon: likeCard,
+              onDeleteCard: deleteCard,
+            }
+          )
+        );
+      });
+    })
+  .catch((err) => {
+    console.log(err); // В случае возникновения ошибки выводим её в консоль
+  });
 
