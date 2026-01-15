@@ -161,7 +161,8 @@ Promise.all([getCardList(), getUserInfo()])
               onPreviewPicture: handlePreviewPicture,
               onLikeIcon: likeCard,
               onDeleteCard: deleteCard,
-            }
+            },
+            currentUserId
           )
         );
       });
