@@ -5,7 +5,6 @@
 
   Из index.js не допускается что то экспортировать
 */
-import '../pages/index.css';
 import { initialCards } from "./cards.js";
 import { createCardElement, deleteCard, likeCard } from "./components/card.js";
 import { openModalWindow, closeModalWindow, setCloseModalWindowEventListeners } from "./components/modal.js";
@@ -50,6 +49,12 @@ const avatarFormModalWindow = document.querySelector(".popup_type_edit-avatar");
 const avatarForm = avatarFormModalWindow.querySelector(".popup__form");
 const avatarInput = avatarForm.querySelector(".popup__input");
 
+const deleteCardModalWindow = document.querySelector(".popup_type_remove-card");
+const deleteCardForm = deleteCardModalWindow.querySelector(".popup__form");
+
+let currentCardElement = null; 
+let currentCardId = null;  
+
 const handlePreviewPicture = ({ name, link }) => {
   imageElement.src = link;
   imageElement.alt = name;
@@ -81,12 +86,37 @@ const handleCardFormSubmit = (evt) => {
       {
         onPreviewPicture: handlePreviewPicture,
         onLikeIcon: likeCard,
-        onDeleteCard: deleteCard,
+        onDeleteCard: (cardElement, cardId) => {
+          openDeleteWindowPopup(cardElement, cardId)
+        },
       }
     )
   );
 
   closeModalWindow(cardFormModalWindow);
+};
+
+const openDeleteWindowPopup = (cardElement, cardId) => {
+  currentCardElement = cardElement;
+  currentCardId = cardId;
+
+  openModalWindow(deleteCardModalWindow);
+};
+
+const handleDeleteCardFormSubmit = (evt) => {
+  evt.preventDefault();
+
+  deleteCard(currentCardId)
+    .then(() => {
+      currentCardElement.remove();
+      closeModalWindow(deleteCardModalWindow);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      submitButton.textContent = "Да";
+    });
 };
 
 // EventListeners
@@ -112,6 +142,8 @@ openCardFormButton.addEventListener("click", () => {
   clearValidation(cardForm, validationSettings);
   openModalWindow(cardFormModalWindow);
 });
+
+deleteCardForm.addEventListener("submit", handleDeleteCardFormSubmit);
 
 // отображение карточек
 initialCards.forEach((data) => {
