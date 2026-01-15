@@ -117,6 +117,12 @@ const handleCardFormSubmit = (evt) => {
     });
 };
 
+const handleDeleteCard = (cardElement, cardId) => {
+  deleteCard(cardId)
+    .then(() => cardElement.remove())
+    .catch((err => console.log(err))); 
+};
+
 // EventListeners
 profileForm.addEventListener("submit", handleProfileFormSubmit);
 cardForm.addEventListener("submit", handleCardFormSubmit);
