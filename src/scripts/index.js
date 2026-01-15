@@ -6,7 +6,7 @@
   Из index.js не допускается что то экспортировать
 */
 import '../pages/index.css';
-import { getUserInfo, setUserAvatar, setUserInfo } from './components/api.js';
+import { addNewCard, getUserInfo, setUserAvatar, setUserInfo } from './components/api.js';
 import { createCardElement, deleteCard, likeCard } from "./components/card.js";
 import { openModalWindow, closeModalWindow, setCloseModalWindowEventListeners } from "./components/modal.js";
 
@@ -89,21 +89,32 @@ const handleAvatarFromSubmit = (evt) => {
 
 const handleCardFormSubmit = (evt) => {
   evt.preventDefault();
-  placesWrap.prepend(
-    createCardElement(
-      {
-        name: cardNameInput.value,
-        link: cardLinkInput.value,
-      },
-      {
-        onPreviewPicture: handlePreviewPicture,
-        onLikeIcon: likeCard,
-        onDeleteCard: deleteCard,
-      }
-    )
-  );
-
-  closeModalWindow(cardFormModalWindow);
+  const submitButton = cardForm.querySelector(".popup__button");
+  submitButton.textContent = "Сохранение...",
+  addNewCard({
+    name: cardNameInput.value,
+    link: cardLinkInput.value,
+  })
+    .then((card) => {
+      placesWrap.append(
+        createCardElement(
+          card,
+          {
+            onPreviewPicture: handlePreviewPicture,
+            onLikeIcon: likeCard,
+            onDeleteCard: deleteCard,
+          }
+        )
+      );
+      cardForm.reset();
+      closeModalWindow(cardFormModalWindow);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      submitButton.textContent = "Создать";
+    });
 };
 
 // EventListeners
