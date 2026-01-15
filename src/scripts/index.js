@@ -5,8 +5,8 @@
 
   Из index.js не допускается что то экспортировать
 */
-import '../pages/index.css';
-import { addNewCard, getUserInfo, setUserAvatar, setUserInfo } from './components/api.js';
+//import '../pages/index.css';
+import { addNewCard, getUserInfo, setUserAvatar, setUserInfo, getCardList } from './components/api.js';
 import { createCardElement, deleteCard, likeCard } from "./components/card.js";
 import { openModalWindow, closeModalWindow, setCloseModalWindowEventListeners } from "./components/modal.js";
 
