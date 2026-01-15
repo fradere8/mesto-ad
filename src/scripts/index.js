@@ -6,7 +6,7 @@
   Из index.js не допускается что то экспортировать
 */
 //import '../pages/index.css';
-import { addNewCard, getUserInfo, setUserAvatar, setUserInfo, getCardList } from './components/api.js';
+import { addNewCard, getUserInfo, setUserAvatar, setUserInfo, getCardList, changeLikeCardStatus } from './components/api.js';
 import { createCardElement, deleteCard, likeCard } from "./components/card.js";
 import { openModalWindow, closeModalWindow, setCloseModalWindowEventListeners } from "./components/modal.js";
 
@@ -121,6 +121,22 @@ const handleDeleteCard = (cardElement, cardId) => {
   deleteCard(cardId)
     .then(() => cardElement.remove())
     .catch((err => console.log(err))); 
+};
+
+const handleLikeCard = (likeButton, cardId) => {
+  const isLiked = likeButton.classList.contains("card__like-button_is-active");
+  likeButton.disabled = true;
+
+  changeLikeCardStatus(cardId, isLiked)
+    .then(() => {
+      likeButton.classList.toggle("card__like-button_is-active");
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      likeButton.disabled = false;
+    });
 };
 
 // EventListeners
