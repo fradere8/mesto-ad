@@ -61,7 +61,7 @@ const infoList = infoModalWindow.querySelector(".popup__info");
 const infoUserList = infoModalWindow.querySelector(".popup__list");
 
 const infoElementTemplate = document.getElementById("popup-info-definition-template").content;
-const likedUsersBadgeTemplate = document.getElementById("popup-info-user-preview-template").content;
+const likedUsersBadgeTemplate = document.getElementById("popup-info-user-preview-template").content;  
 
 const handlePreviewPicture = ({ name, link }) => {
   imageElement.src = link;
