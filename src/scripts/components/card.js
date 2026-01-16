@@ -33,7 +33,7 @@ export const createCardElement = (
   }
 
   if (onLikeIcon) {
-    likeButton.addEventListener("click", () => onLikeIcon(likeButton, cardElement.dataset.cardId, likeCounter));
+    likeButton.addEventListener("click", () => onLikeIcon(likeButton, likeCounter, cardElement.dataset.cardId));
   }
 
   if (data.owner && data.owner._id === currentUserId) {
