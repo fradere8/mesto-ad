@@ -223,9 +223,9 @@ const createLikedUserBadge = (user) => {
 const handleInfoClick = (cardId) => {
   
   const infoModalWindow = document.querySelector(".popup_type_info");
-  const infoList = infoModal.querySelector(".popup__info");
-  const infoUserList = infoModal.querySelector(".popup__list");
-  const infoTitle = infoModal.querySelector(".popup__title");
+  const infoList = infoModalWindow.querySelector(".popup__info");
+  const infoUserList = infoModalWindow.querySelector(".popup__list");
+  const infoTitle = infoModalWindow.querySelector(".popup__title");
 
   infoTitle.textContent = '';
   infoList.innerHTML = '';
