@@ -89,8 +89,6 @@ const handleAvatarFromSubmit = (evt) => {
 
 const handleCardFormSubmit = (evt) => {
   evt.preventDefault();
-  const submitButton = cardForm.querySelector(".popup__button");
-  submitButton.textContent = "Сохранение...",
   addNewCard({
     name: cardNameInput.value,
     link: cardLinkInput.value,
@@ -101,8 +99,8 @@ const handleCardFormSubmit = (evt) => {
           card,
           {
             onPreviewPicture: handlePreviewPicture,
-            onLikeIcon: likeCard,
-            onDeleteCard: deleteCard,
+            onLikeIcon: handleLikeCard,
+            onDeleteCard: handleDeleteCard,
           }
         )
       );
