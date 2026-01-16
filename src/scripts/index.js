@@ -229,6 +229,7 @@ const handleInfoClick = (cardId) => {
   const infoList = infoModalWindow.querySelector(".popup__info");
   const infoUserList = infoModalWindow.querySelector(".popup__list");
   const infoTitle = infoModalWindow.querySelector(".popup__title");
+  const infoText = infoModalWindow.querySelector(".popup__text");
 
   infoTitle.textContent = '';
   infoList.innerHTML = '';
@@ -268,8 +269,7 @@ const handleInfoClick = (cardId) => {
       );
 
       if (cardData.likes.length > 0) {
-        const likedTitle = createInfoElement("Лайкнули:", "");
-        infoList.append(likedTitle);
+        infoText.textContent = "Лайкнули:";
         
         cardData.likes.forEach((user) => {
           infoUserList.append(createLikedUserBadge(user));
@@ -325,7 +325,6 @@ Promise.all([getCardList(), getUserInfo()])
       profileAvatar.style.backgroundImage = `url(${userData.avatar})`,
       cardList = cards;
       currentUserData = userData;
-      console.log("currentUserData:", currentUserData);
 
       cards.forEach((card) => {
         placesWrap.append(
