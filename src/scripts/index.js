@@ -54,7 +54,6 @@ const deleteCardForm = deleteCardModalWindow.querySelector(".popup__form");
 
 let currentCardElement = null; 
 let currentCardId = null;
-let currentUserData = {};
 
 const infoElementTemplate = document.getElementById("popup-info-definition-template").content;
 
@@ -318,6 +317,7 @@ allPopups.forEach((popup) => {
   setCloseModalWindowEventListeners(popup);
 });
 
+let currentUserData;
 let currentUserId;
 let cardList = [];
 Promise.all([getCardList(), getUserInfo()])
