@@ -127,12 +127,14 @@ const handleCardFormSubmit = (evt) => {
           card,
           {
             onPreviewPicture: handlePreviewPicture,
-            onLikeIcon: handleLikeCard,
+            onLikeIcon: (likeButton, cardId, likeCounter) => 
+              handleLikeCard(likeButton, cardId, likeCounter),
             onDeleteCard: (cardElement, cardId) => {
               openDeleteWindowPopup(cardElement, cardId)
             },
             onInfoButton: handleInfoClick, 
-          }
+          },
+          currentUserId
         )
       );
       cardForm.reset();
@@ -171,7 +173,7 @@ const handleDeleteCardFormSubmit = (evt) => {
     });
 };
 
-const handleLikeCard = (likeButton, cardId) => {
+const handleLikeCard = (likeButton, cardId, likeCounter) => {
   const isLiked = likeButton.classList.contains("card__like-button_is-active");
   likeButton.disabled = true;
 
@@ -251,7 +253,6 @@ const handleInfoClick = (cardId) => {
         )
       );
 
-
       if (cardData.likes.length > 0) {
         const likedTitle = createInfoElement("Лайкнули:", "");
         infoList.append(likedTitle);
@@ -266,9 +267,6 @@ const handleInfoClick = (cardId) => {
     .catch((err) => {
       console.log(err);
     })
-    .finally(() => {
-      infoButton.disabled = false;
-    });
 };  
 
 // EventListeners
@@ -302,9 +300,10 @@ allPopups.forEach((popup) => {
   setCloseModalWindowEventListeners(popup);
 });
 
+let currentUserId;
 Promise.all([getCardList(), getUserInfo()])
   .then(([cards, userData]) => {
-      const currentUserId = userData._id;
+      currentUserId = userData._id;
       profileTitle.textContent = userData.name;
       profileDescription.textContent = userData.about,
       profileAvatar.style.backgroundImage = `url(${userData.avatar})`,
@@ -315,8 +314,12 @@ Promise.all([getCardList(), getUserInfo()])
             card,
             {
               onPreviewPicture: handlePreviewPicture,
-              onLikeIcon: handleLikeCard,
-              onDeleteCard: deleteCard,
+              onLikeIcon: (likeButton, cardId, likeCounter) => 
+                handleLikeCard(likeButton, cardId, likeCounter),
+              onDeleteCard: (cardElement, cardId) => {
+                openDeleteWindowPopup(cardElement, cardId)
+              },
+              onInfoButton: handleInfoClick, 
             },
             currentUserId
           )

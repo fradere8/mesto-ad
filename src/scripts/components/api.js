@@ -54,7 +54,7 @@ export const addNewCard = ({ name, link }) => {
   }).then(getResponseData);
 };
 
-export const deleteCard = ({ cardId }) => {
+export const deleteCard = (cardId) => {
   return fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: "DELETE",
     headers: config.headers,
@@ -63,7 +63,7 @@ export const deleteCard = ({ cardId }) => {
 };
 
 export const changeLikeCardStatus = (cardID, isLiked) => {
-  return fetch(`${config.baseUrl}/cards/likes/${cardID}`, {
+  return fetch(`${config.baseUrl}/cards/${cardID}/likes`, {
     method: isLiked ?  "DELETE" : "PUT",
     headers: config.headers,
   }).then((res) => getResponseData(res));
