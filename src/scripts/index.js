@@ -214,12 +214,12 @@ const createLikedUserBadge = (user) => {
 const handleInfoClick = (cardId) => {
   
   infoTitle.textContent = '';
-  infoList.textContent = '';
-  infoUserList.textContent = '';
+  infoList.innerHTML = '';
+  infoUserList.innerHTML = '';
 
   getCardList()
     .then((cards) => {
-      const cardData = cards.find((card) => card._id === cardId);
+      const cardData = cardList.find((card) => card._id === cardId);
       infoTitle.textContent = "Информация о карточке";
 
       infoList.append(
@@ -298,12 +298,14 @@ allPopups.forEach((popup) => {
 });
 
 let currentUserId;
+let cardList = [];
 Promise.all([getCardList(), getUserInfo()])
   .then(([cards, userData]) => {
       currentUserId = userData._id;
       profileTitle.textContent = userData.name;
       profileDescription.textContent = userData.about,
       profileAvatar.style.backgroundImage = `url(${userData.avatar})`,
+      cardList = cards;
 
       cards.forEach((card) => {
         placesWrap.append(
