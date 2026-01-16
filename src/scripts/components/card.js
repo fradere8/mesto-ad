@@ -25,6 +25,7 @@ export const createCardElement = (
   cardImage.alt = data.name;
   cardElement.querySelector(".card__title").textContent = data.name;
   likeCounter.textContent = data.likes.length;
+  cardElement.dataset.cardId = data._id;
   infoButton.dataset.id = data._id;
 
   if (data.likes.some(like => like._id === currentUserId)) {
@@ -32,7 +33,7 @@ export const createCardElement = (
   }
 
   if (onLikeIcon) {
-    likeButton.addEventListener("click", () => onLikeIcon(likeButton, likeCounter, data._id));
+    likeButton.addEventListener("click", () => onLikeIcon(likeButton, cardElement.dataset.cardId, likeCounter));
   }
 
   if (data.owner && data.owner._id === currentUserId) {

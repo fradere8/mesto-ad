@@ -206,11 +206,8 @@ const createInfoElement = (term, description) => {
 
 const createLikedUserBadge = (user) => {
   const badge = likedUsersBadgeTemplate.cloneNode(true);
-  const img = document.createElement("img");
-  img.src = user.avatar;
-  img.alt = user.name;
-  img.classList.add("popup__list-item-image");
-  badge.append(img);
+  badge.textContent = user.name; 
+  badge.classList.add("popup__list-item_type_name");
   return badge;
 };
 
