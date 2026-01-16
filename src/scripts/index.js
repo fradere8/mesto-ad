@@ -105,6 +105,8 @@ const openDeleteWindowPopup = (cardElement, cardId) => {
 
 const handleDeleteCardFormSubmit = (evt) => {
   evt.preventDefault();
+  const submitButton = deleteCardForm.querySelector(".popup__button");
+  submitButton.textContent = "Удаление...";
 
   deleteCard(currentCardId)
     .then(() => {
