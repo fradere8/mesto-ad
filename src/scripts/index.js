@@ -278,6 +278,7 @@ allPopups.forEach((popup) => {
 
 Promise.all([getCardList(), getUserInfo()])
   .then(([cards, userData]) => {
+      const currentUserId = userData._id;
       profileTitle.textContent = userData.name;
       profileDescription.textContent = userData.about,
       profileAvatar.style.backgroundImage = `url(${userData.avatar})`,
