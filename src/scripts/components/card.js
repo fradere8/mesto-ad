@@ -22,13 +22,19 @@ export const createCardElement = (
   const likeButton = cardElement.querySelector(".card__like-button");
   const deleteButton = cardElement.querySelector(".card__control-button_type_delete");
   const cardImage = cardElement.querySelector(".card__image");
+  const likeCounter = cardElement.querySelector(".card__like-count");
 
   cardImage.src = data.link;
   cardImage.alt = data.name;
   cardElement.querySelector(".card__title").textContent = data.name;
 
+  likeCounter.textContent = data.likes.length;
+  if (data.likes.some(like => like._id === currentUserId)) {
+    likeButton.classList.add("card__like-button_is-active");
+  }
+
   if (onLikeIcon) {
-    likeButton.addEventListener("click", () => onLikeIcon(likeButton, data._id));
+    likeButton.addEventListener("click", () => onLikeIcon(likeButton, likeCounter, data._id));
   }
 
   if (data.owner && data.owner._id === currentUserId) {

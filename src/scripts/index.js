@@ -126,7 +126,8 @@ const handleLikeCard = (likeButton, cardId) => {
   likeButton.disabled = true;
 
   changeLikeCardStatus(cardId, isLiked)
-    .then(() => {
+    .then((updCardData) => {
+      likeCount.textContent = updCardData.likes.length;
       likeButton.classList.toggle("card__like-button_is-active");
     })
     .catch((err) => {
