@@ -223,54 +223,62 @@ const createLikedUserBadge = (user) => {
 const handleInfoClick = (cardId) => {
   
   const infoModalWindow = document.querySelector(".popup_type_info");
-  const infoList = infoModalWindow.querySelector(".popup__info");
-  const infoUserList = infoModalWindow.querySelector(".popup__list");
-  const infoTitle = infoModalWindow.querySelector(".popup__title");
+  const infoList = infoModal.querySelector(".popup__info");
+  const infoUserList = infoModal.querySelector(".popup__list");
+  const infoTitle = infoModal.querySelector(".popup__title");
 
   infoTitle.textContent = '';
   infoList.innerHTML = '';
   infoUserList.innerHTML = '';
 
-  openModalWindow(infoModalWindow);
-
   getCardList()
     .then((cards) => {
-      const cardData = cards.find((card) => card._id === cardId);
+      const cardData = cardList.find((card) => card._id === cardId);
       infoTitle.textContent = "Информация о карточке";
 
-      const addRow = (term, value) => {
-        const termElem = document.createElement("dt");
-        termElem.className = "popup__info-term";
-        termElem.textContent = term;
+      infoList.append(
+        createInfoElement(
+          "Описание:",
+          cardData.name
+        )
+      );
 
-        const descElem = document.createElement("dd");
-        descElem.className = "popup__info-description";
-        descElem.textContent = value;
+      infoList.append(
+        createInfoElement(
+          "Дата создания:",
+          formatDate(new Date(cardData.createdAt))
+        )
+      );
 
-        const item = document.createElement("div");
-        item.className = "popup__info-item";
-        item.append(termElem, descElem);
+      infoList.append(
+        createInfoElement(
+          "Владелец:",
+          cardData.owner.name
+        )
+      );
 
-        infoList.append(item);
-      };
-
-      addRow("Описание:", cardData.name);
-      addRow("Дата создания:", formatDate(new Date(cardData.createdAt)));
-      addRow("Владелец:", cardData.owner.name);
-      addRow("Количество лайков:", cardData.likes.length);
+      infoList.append(
+        createInfoElement(
+          "Количество лайков:",
+          cardData.likes.length
+        )
+      );
 
       if (cardData.likes.length > 0) {
-        addRow("Лайкнули:", "");
-        cardData.likes.forEach(user => {
-          const badge = createLikedUserBadge(user);
-          userList.append(badge);
+        const likedTitle = createInfoElement("Лайкнули:", "");
+        infoList.append(likedTitle);
+        
+        cardData.likes.forEach((user) => {
+          infoUserList.append(createLikedUserBadge(user));
         });
-      }      
+      }
+      
+      openModalWindow(infoModalWindow);
     })
     .catch((err) => {
       console.log(err);
     })
-};  
+};   
 
 // EventListeners
 profileForm.addEventListener("submit", handleProfileFormSubmit);
