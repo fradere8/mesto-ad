@@ -5,7 +5,6 @@
 
   Из index.js не допускается что то экспортировать
 */
-//import '../pages/index.css';
 import { addNewCard, getUserInfo, setUserAvatar, setUserInfo, getCardList, changeLikeCardStatus } from './components/api.js';
 import { createCardElement, deleteCard, likeCard } from "./components/card.js";
 import { openModalWindow, closeModalWindow, setCloseModalWindowEventListeners } from "./components/modal.js";
@@ -50,6 +49,12 @@ const avatarFormModalWindow = document.querySelector(".popup_type_edit-avatar");
 const avatarForm = avatarFormModalWindow.querySelector(".popup__form");
 const avatarInput = avatarForm.querySelector(".popup__input");
 
+const deleteCardModalWindow = document.querySelector(".popup_type_remove-card");
+const deleteCardForm = deleteCardModalWindow.querySelector(".popup__form");
+
+let currentCardElement = null; 
+let currentCardId = null;
+
 const infoModalWindow = document.querySelector(".popup_type_info");
 const infoTitle = infoModalWindow.querySelector(".popup__title");
 const infoList = infoModalWindow.querySelector(".popup__info");
@@ -57,7 +62,6 @@ const infoUserList = infoModalWindow.querySelector(".popup__list");
 
 const infoElementTemplate = document.getElementById("popup-info-definition-template").content;
 const likedUsersBadgeTemplate = document.getElementById("popup-info-user-preview-template").content;
-
 
 const handlePreviewPicture = ({ name, link }) => {
   imageElement.src = link;
@@ -124,7 +128,9 @@ const handleCardFormSubmit = (evt) => {
           {
             onPreviewPicture: handlePreviewPicture,
             onLikeIcon: handleLikeCard,
-            onDeleteCard: handleDeleteCard,
+            onDeleteCard: (cardElement, cardId) => {
+              openDeleteWindowPopup(cardElement, cardId)
+            },
             onInfoButton: handleInfoClick, 
           }
         )
@@ -140,10 +146,29 @@ const handleCardFormSubmit = (evt) => {
     });
 };
 
-const handleDeleteCard = (cardElement, cardId) => {
-  deleteCard(cardId)
-    .then(() => cardElement.remove())
-    .catch((err => console.log(err))); 
+const openDeleteWindowPopup = (cardElement, cardId) => {
+  currentCardElement = cardElement;
+  currentCardId = cardId;
+
+  openModalWindow(deleteCardModalWindow);
+};
+
+const handleDeleteCardFormSubmit = (evt) => {
+  evt.preventDefault();
+  const submitButton = deleteCardForm.querySelector(".popup__button");
+  submitButton.textContent = "Удаление...";
+
+  deleteCard(currentCardId)
+    .then(() => {
+      currentCardElement.remove();
+      closeModalWindow(deleteCardModalWindow);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      submitButton.textContent = "Да";
+    });
 };
 
 const handleLikeCard = (likeButton, cardId) => {
@@ -270,6 +295,7 @@ openCardFormButton.addEventListener("click", () => {
   openModalWindow(cardFormModalWindow);
 });
 
+deleteCardForm.addEventListener("submit", handleDeleteCardFormSubmit);
 //настраиваем обработчики закрытия попапов
 const allPopups = document.querySelectorAll(".popup");
 allPopups.forEach((popup) => {
