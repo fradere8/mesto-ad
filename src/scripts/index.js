@@ -61,7 +61,6 @@ const infoList = infoModalWindow.querySelector(".popup__info");
 const infoUserList = infoModalWindow.querySelector(".popup__list");
 
 const infoElementTemplate = document.getElementById("popup-info-definition-template").content;
-const likedUsersBadgeTemplate = document.getElementById("popup-info-user-preview-template").content;  
 
 const handlePreviewPicture = ({ name, link }) => {
   imageElement.src = link;
@@ -205,9 +204,24 @@ const createInfoElement = (term, description) => {
 };
 
 const createLikedUserBadge = (user) => {
-  const badge = likedUsersBadgeTemplate.cloneNode(true);
-  badge.textContent = user.name; 
-  badge.classList.add("popup__list-item_type_name");
+  const template = document.getElementById("popup-info-user-preview-template");
+  if (!template) {
+    console.error("Шаблон не найден");
+    const fallback = document.createElement("li");
+    fallback.textContent = user?.name || "—";
+    fallback.classList.add("popup__list-item", "popup__list-item_type_name");
+    return fallback;
+  }
+
+  if (!user || !user.name) {
+    const placeholder = document.createElement("li");
+    placeholder.textContent = "—";
+    placeholder.classList.add("popup__list-item", "popup__list-item_type_name");
+    return placeholder;
+  }
+
+  const badge = template.content.cloneNode(true).children[0];
+  badge.textContent = user.name;
   return badge;
 };
 
