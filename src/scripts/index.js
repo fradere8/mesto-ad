@@ -327,6 +327,7 @@ Promise.all([getCardList(), getUserInfo()])
       profileDescription.textContent = userData.about,
       profileAvatar.style.backgroundImage = `url(${userData.avatar})`,
       cardList = cards;
+      currentUserData = userData;
 
       cards.forEach((card) => {
         placesWrap.append(
