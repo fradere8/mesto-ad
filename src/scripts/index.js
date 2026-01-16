@@ -5,7 +5,7 @@
 
   Из index.js не допускается что то экспортировать
 */
-import { addNewCard, getUserInfo, setUserAvatar, setUserInfo, getCardList, changeLikeCardStatus } from './components/api.js';
+import { addNewCard, getUserInfo, setUserAvatar, setUserInfo, getCardList, changeLikeCardStatus, deleteCard } from './components/api.js';
 import { createCardElement, deleteCard, likeCard } from "./components/card.js";
 import { openModalWindow, closeModalWindow, setCloseModalWindowEventListeners } from "./components/modal.js";
 
@@ -177,7 +177,7 @@ const handleLikeCard = (likeButton, cardId) => {
 
   changeLikeCardStatus(cardId, isLiked)
     .then((updCardData) => {
-      likeCount.textContent = updCardData.likes.length;
+      likeCounter.textContent = updCardData.likes.length;
       likeButton.classList.toggle("card__like-button_is-active");
     })
     .catch((err) => {
@@ -261,7 +261,7 @@ const handleInfoClick = (cardId) => {
         });
       }
       
-      openModalWindow(cardInfoModalWindow);
+      openModalWindow(infoModalWindow);
     })
     .catch((err) => {
       console.log(err);
@@ -315,7 +315,7 @@ Promise.all([getCardList(), getUserInfo()])
             card,
             {
               onPreviewPicture: handlePreviewPicture,
-              onLikeIcon: likeCard,
+              onLikeIcon: handleLikeCard,
               onDeleteCard: deleteCard,
             },
             currentUserId
