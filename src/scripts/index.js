@@ -50,6 +50,15 @@ const avatarFormModalWindow = document.querySelector(".popup_type_edit-avatar");
 const avatarForm = avatarFormModalWindow.querySelector(".popup__form");
 const avatarInput = avatarForm.querySelector(".popup__input");
 
+const infoModalWindow = document.querySelector(".popup_type_info");
+const infoTitle = infoModalWindow.querySelector(".popup__title");
+const infoList = infoModalWindow.querySelector(".popup__info");
+const infoUserList = infoModalWindow.querySelector(".popup__list");
+
+const infoElementTemplate = document.getElementById("popup-info-definition-template").content;
+const likedUsersBadgeTemplate = document.getElementById("popup-info-user-preview-template").content;
+
+
 const handlePreviewPicture = ({ name, link }) => {
   imageElement.src = link;
   imageElement.alt = name;
@@ -116,6 +125,7 @@ const handleCardFormSubmit = (evt) => {
             onPreviewPicture: handlePreviewPicture,
             onLikeIcon: handleLikeCard,
             onDeleteCard: handleDeleteCard,
+            onInfoButton: handleInfoClick, 
           }
         )
       );
@@ -152,6 +162,89 @@ const handleLikeCard = (likeButton, cardId) => {
       likeButton.disabled = false;
     });
 };
+
+const formatDate = (date) =>
+  date.toLocaleDateString("ru-RU", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+const createInfoElement = (term, description) => {
+  const element = infoElementTemplate.cloneNode(true);
+  element.querySelector(".popup__info-term").textContent = term;
+  element.querySelector(".popup__info-description").textContent = description;
+  return element;
+};
+
+const createLikedUserBadge = (user) => {
+  const badge = likedUsersBadgeTemplate.cloneNode(true);
+  const img = document.createElement("img");
+  img.src = user.avatar;
+  img.alt = user.name;
+  img.classList.add("popup__list-item-image");
+  badge.append(img);
+  return badge;
+};
+
+const handleInfoClick = (cardId) => {
+  
+  infoTitle.textContent = '';
+  infoList.textContent = '';
+  infoUserList.textContent = '';
+
+  getCardList()
+    .then((cards) => {
+      const cardData = cards.find((card) => card._id === cardId);
+      infoTitle.textContent = "Информация о карточке";
+
+      infoList.append(
+        createInfoElement(
+          "Описание:",
+          cardData.name
+        )
+      );
+
+      infoList.append(
+        createInfoElement(
+          "Дата создания:",
+          formatDate(new Date(cardData.createdAt))
+        )
+      );
+
+      infoList.append(
+        createInfoElement(
+          "Владелец:",
+          cardData.owner.name
+        )
+      );
+
+      infoList.append(
+        createInfoElement(
+          "Количество лайков:",
+          cardData.likes.length
+        )
+      );
+
+
+      if (cardData.likes.length > 0) {
+        const likedTitle = createInfoElement("Лайкнули:", "");
+        infoList.append(likedTitle);
+        
+        cardData.likes.forEach((user) => {
+          infoUserList.append(createLikedUserBadge(user));
+        });
+      }
+      
+      openModalWindow(cardInfoModalWindow);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      infoButton.disabled = false;
+    });
+};  
 
 // EventListeners
 profileForm.addEventListener("submit", handleProfileFormSubmit);
