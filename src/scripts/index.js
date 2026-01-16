@@ -233,7 +233,7 @@ const handleInfoClick = (cardId) => {
 
   getCardList()
     .then((cards) => {
-      const cardData = cardList.find((card) => card._id === cardId);
+      const cardData = cards.find((card) => card._id === cardId);
       infoTitle.textContent = "Информация о карточке";
 
       infoList.append(
