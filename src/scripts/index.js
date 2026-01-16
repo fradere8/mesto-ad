@@ -54,6 +54,7 @@ const deleteCardForm = deleteCardModalWindow.querySelector(".popup__form");
 
 let currentCardElement = null; 
 let currentCardId = null;
+let currentUserData = {};
 
 const infoElementTemplate = document.getElementById("popup-info-definition-template").content;
 
@@ -72,10 +73,13 @@ const handleProfileFormSubmit = (evt) => {
   setUserInfo({
     name: profileTitleInput.value,
     about: profileDescriptionInput.value,
+    avatar: currentUserData.avatar,
   })
     .then((userData) => {
       profileTitle.textContent = userData.name,
       profileDescription.textContent = userData.about,
+      currentUserData = userData;
+
       closeModalWindow(profileFormModalWindow);
     })
     .catch((err) => {
@@ -92,10 +96,13 @@ const handleAvatarFromSubmit = (evt) => {
   submitButton.textContent = "Сохранение...";
 
   setUserAvatar({
+    name: currentUserData.name,
+    about: currentUserData.about,
     avatar: avatarInput.value,
   })
     .then((userData) => {
       profileAvatar.style.backgroundImage = `url(${userData.avatar})`,
+      currentUserData = userData;
       closeModalWindow(profileFormModalWindow);
     })
     .catch((err) => {
