@@ -119,7 +119,7 @@ const handleCardFormSubmit = (evt) => {
     link: cardLinkInput.value,
   })
     .then((card) => {
-      placesWrap.append(
+      placesWrap.prepend(
         createCardElement(
           card,
           {
