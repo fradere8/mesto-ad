@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
 export default defineConfig({
-  base: '/mesto-ad/',
+  base: './',
   root: '.', 
   build: {
     outDir: 'dist',     
@@ -12,7 +12,6 @@ export default defineConfig({
     },
   },
   server: {
-    open: true,    
-    port: 3000,     
+    open: true,         
   },
 });
