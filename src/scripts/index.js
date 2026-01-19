@@ -223,7 +223,7 @@ const createLikedUserBadge = (user) => {
   return badge;
 };
 
-const handleInfoClick = (cardId, infoButton) => {
+const handleInfoClick = (cardId) => {
   
   const infoModalWindow = document.querySelector(".popup_type_info");
   const infoList = infoModalWindow.querySelector(".popup__info");
@@ -231,7 +231,6 @@ const handleInfoClick = (cardId, infoButton) => {
   const infoTitle = infoModalWindow.querySelector(".popup__title");
   const infoText = infoModalWindow.querySelector(".popup__text");
 
-  infoButton.disabled = true;
   infoTitle.textContent = '';
   infoList.replaceChildren();
   infoUserList.replaceChildren();
@@ -282,9 +281,6 @@ const handleInfoClick = (cardId, infoButton) => {
     .catch((err) => {
       console.log(err);
     })
-    .finally(() => {
-      infoButton.disabled = false;
-    });
 };   
 
 // EventListeners
